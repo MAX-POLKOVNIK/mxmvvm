@@ -46,6 +46,8 @@ abstract class ViewModel(application: Application) : AndroidViewModel(applicatio
         private val mutableLiveData = MutableLiveData<T>()
 
         val liveData: LiveData<T> = mutableLiveData
+        val value: T
+            get() = liveData.value!!
 
         init { mutableLiveData.value = defaultValue }
 
@@ -94,8 +96,8 @@ abstract class ViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    protected var <T> MutableBindingProperty<T>.value: T
-        get() = liveData.value!!
+    protected var <T> MutableBindingProperty<T>.mutableValue: T
+        get() = value
         set(value) {
             (liveData as MutableLiveData<T>).value = value
         }

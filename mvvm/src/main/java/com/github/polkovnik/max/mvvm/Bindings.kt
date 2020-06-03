@@ -18,7 +18,7 @@ fun LifecycleOwner.bindCheckableTwoWay(liveData: Checkable, compoundButton: Comp
         }
     })
 
-    compoundButton.setOnCheckedChangeListener { _, isChecked -> liveData.value = isChecked }
+    compoundButton.setOnCheckedChangeListener { _, isChecked -> liveData.mutableValue = isChecked }
 }
 
 fun LifecycleOwner.bindCheckable(liveData: Checkable, compoundButton: CompoundButton) {
@@ -58,7 +58,7 @@ fun <T>LifecycleOwner.bindCommand(command: TCommand<T>, block: (T) -> Unit) =
 
 fun LifecycleOwner.bindProgress(liveData: Progress, ratingBar: RatingBar) {
     liveData.observe(this, Observer { ratingBar.rating = it })
-    ratingBar.setOnRatingBarChangeListener { _, rating, _ -> liveData.value = rating }
+    ratingBar.setOnRatingBarChangeListener { _, rating, _ -> liveData.mutableValue = rating }
 }
 
 @Suppress("UNCHECKED_CAST")
@@ -102,7 +102,7 @@ fun LifecycleOwner.bindTextTwoWay(liveData: Text, editText: EditText) {
         override fun afterTextChanged(s: Editable?) {}
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            liveData.value = s?.toString() ?: ""
+            liveData.mutableValue = s?.toString() ?: ""
         }
     })
 
@@ -134,7 +134,7 @@ fun LifecycleOwner.bindTextTwoWay(liveData: Text, editText: EditText) {
     })
 }
 
-private var <T> ViewModel.MutableBindingProperty<T>.value: T
+private var <T> ViewModel.MutableBindingProperty<T>.mutableValue: T
     get() = liveData.value!!
     set(value) {
         (liveData as MutableLiveData<T>).value = value
