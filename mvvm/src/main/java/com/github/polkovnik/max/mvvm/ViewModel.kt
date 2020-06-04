@@ -3,6 +3,7 @@ package com.github.polkovnik.max.mvvm
 import android.app.Application
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.MainThread
 import androidx.annotation.StringRes
@@ -32,7 +33,7 @@ typealias TCommand<T> = ViewModel.SingleLiveEvent<T>
 abstract class ViewModel(application: Application) : AndroidViewModel(application) {
     protected val context: Context by lazy { getApplication<Application>() }
     protected var errorDescriptionProvider: (Throwable) -> String = { it.toString() }
-    protected var errorHandler: (Throwable) -> Unit = {}
+    protected var errorHandler: (Throwable) -> Unit = { Log.d("mxmvvm", "Error handled: $it") }
 
     val title = Text()
     val state = Data<State>(Idle)
