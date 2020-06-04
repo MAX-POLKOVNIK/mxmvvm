@@ -1,3 +1,5 @@
 package com.github.polkovnik.max.mvvm.state
 
-interface State
+abstract class State {
+    var tag: Any = Unit
+}

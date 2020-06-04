@@ -7,7 +7,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.github.polkovnik.max.mvvm.state.Idle
-import com.github.polkovnik.max.mvvm.state.UiLockProgressState
+import com.github.polkovnik.max.mvvm.state.loading.UiLockLoadingState
 
 abstract class MvvmDialogFragment<TViewModel> : DialogFragment() where TViewModel: ViewModel {
 
@@ -54,7 +54,7 @@ abstract class MvvmDialogFragment<TViewModel> : DialogFragment() where TViewMode
     @Suppress("DEPRECATION")
     protected open fun uiLockBusyStateChanged() {
         when (val state = viewModel.state.value) {
-            is UiLockProgressState -> {
+            is UiLockLoadingState -> {
                 progressDialog = ProgressDialog(requireContext())
                     .apply { setMessage(state.message) }
                     .also { it.show() }

@@ -1,8 +1,9 @@
-package com.github.polkovnik.max.mvvm.state
+package com.github.polkovnik.max.mvvm.state.empty
 
 import android.content.Context
 import androidx.annotation.StringRes
+import com.github.polkovnik.max.mvvm.state.State
 
-data class UiLockProgressState(val message: String) : State {
+open class EmptyState(val message: String) : State() {
     constructor(@StringRes stringResId: Int, context: Context) : this(context.getString(stringResId))
 }
