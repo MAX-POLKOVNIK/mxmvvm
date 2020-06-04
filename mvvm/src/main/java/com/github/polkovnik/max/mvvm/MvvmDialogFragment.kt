@@ -33,7 +33,7 @@ abstract class MvvmDialogFragment<TViewModel> : DialogFragment() where TViewMode
             Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
         }
 
-        bindDataToAction(viewModel.state) { uiLockBusyStateChanged() }
+        bindDataToAction(viewModel.state) { stateChanged() }
 
         bindCommand(viewModel.showAlertCommand) {
             AlertDialog.Builder(requireContext())
@@ -52,7 +52,7 @@ abstract class MvvmDialogFragment<TViewModel> : DialogFragment() where TViewMode
     protected open fun close() = dismissAllowingStateLoss()
 
     @Suppress("DEPRECATION")
-    protected open fun uiLockBusyStateChanged() {
+    protected open fun stateChanged() {
         when (val state = viewModel.state.value) {
             is UiLockLoadingState -> {
                 progressDialog = ProgressDialog(requireContext())
