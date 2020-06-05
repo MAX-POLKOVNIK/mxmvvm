@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.github.polkovnik.max.mvvm.state.Idle
 import com.github.polkovnik.max.mvvm.state.loading.UiLockLoadingState
 
@@ -66,6 +67,12 @@ abstract class MvvmDialogFragment<TViewModel> : DialogFragment() where TViewMode
         }
     }
 }
+
+fun DialogFragment.showAllowingStateLoss(fm: FragmentManager, tag: String = this::class.java.name) =
+    fm.beginTransaction()
+        .add(this, tag)
+        .addToBackStack(tag)
+        .commitAllowingStateLoss()
 
 val Fragment.parent: Any?
     get() = parentFragment ?: activity
