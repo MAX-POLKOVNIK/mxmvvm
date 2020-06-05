@@ -85,6 +85,9 @@ fun <T>LifecycleOwner.bindList(
 fun <T>LifecycleOwner.bindDataToAction(liveData: Data<T>, block: (T) -> Unit) =
     liveData.observe(this, Observer(block))
 
+fun <T>LifecycleOwner.bindDataToAction(liveData: ViewModel.MutableBindingProperty<T>, block: (T) -> Unit) =
+    liveData.observe(this, Observer(block))
+
 fun <T>LifecycleOwner.bindDataToAction(liveData: DataList<T>, block: (List<T>) -> Unit) =
     liveData.observe(this, Observer(block))
 
