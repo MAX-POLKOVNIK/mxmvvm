@@ -7,7 +7,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.github.polkovnik.max.mvvm.state.Idle
-import com.github.polkovnik.max.mvvm.state.UiLockProgressState
+import com.github.polkovnik.max.mvvm.state.loading.UiLockLoadingState
 
 abstract class MvvmDialogFragment<TViewModel> : DialogFragment() where TViewModel: ViewModel {
 
@@ -33,7 +33,7 @@ abstract class MvvmDialogFragment<TViewModel> : DialogFragment() where TViewMode
             Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
         }
 
-        bindDataToAction(viewModel.state) { uiLockBusyStateChanged() }
+        bindDataToAction(viewModel.state) { stateChanged() }
 
         bindCommand(viewModel.showAlertCommand) {
             AlertDialog.Builder(requireContext())
@@ -52,9 +52,9 @@ abstract class MvvmDialogFragment<TViewModel> : DialogFragment() where TViewMode
     protected open fun close() = dismissAllowingStateLoss()
 
     @Suppress("DEPRECATION")
-    protected open fun uiLockBusyStateChanged() {
+    protected open fun stateChanged() {
         when (val state = viewModel.state.value) {
-            is UiLockProgressState -> {
+            is UiLockLoadingState -> {
                 progressDialog = ProgressDialog(requireContext())
                     .apply { setMessage(state.message) }
                     .also { it.show() }
