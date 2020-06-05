@@ -32,8 +32,8 @@ typealias TCommand<T> = ViewModel.SingleLiveEvent<T>
 
 abstract class ViewModel(application: Application) : AndroidViewModel(application) {
     protected val context: Context by lazy { getApplication<Application>() }
-    protected var errorDescriptionProvider: (Throwable) -> String = { it.toString() }
-    protected var errorHandler: (Throwable) -> Unit = { Log.d("mxmvvm", "Error handled: $it") }
+    protected val errorDescriptionProvider: (Throwable) -> String = { it.toString() }
+    protected val errorHandler: (Throwable) -> Unit = { Log.d("mxmvvm", "Error handled: $it") }
 
     val title = Text()
     val state = Data<State>(Idle)
@@ -58,7 +58,7 @@ abstract class ViewModel(application: Application) : AndroidViewModel(applicatio
     protected fun showMessage(stringResourceId: Int) =
         showMessage(getApplication<Application>().getString(stringResourceId))
 
-    protected fun processError(error: Throwable, showToast: Boolean = true) {
+    protected open fun processError(error: Throwable, showToast: Boolean = true) {
         errorHandler(error)
 
         if (showToast) {
